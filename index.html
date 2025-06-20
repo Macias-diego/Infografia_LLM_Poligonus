@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: ChatGPT vs. Claude - Resultados del Reto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!--
+    Narrative Plan:
+    1. Introduction: Introduce the LLM challenge.
+    2. Overall Performance: Display total scores with a prominent bar chart.
+    3. Category Breakdown: Show performance in Math, Language, and Problem-Solving using individual charts.
+    4. Deep Dive: Analyze the specific prompts where the models' performance differed, using comparison cards.
+    5. Strengths & Weaknesses: A structured comparison using a two-column layout.
+    6. Conclusion: A final summary of the findings.
+
+    Visualization Selection (NO SVG / NO MERMAID JS):
+    - Overall Score: Horizontal Bar Chart (Chart.js) -> Goal: Compare. Justification: Clear, direct comparison of final scores.
+    - Category Scores: Doughnut Charts (Chart.js) -> Goal: Show composition. Justification: Shows proportion of correct answers within each category.
+    - Deep Dive Comparison: Structured HTML/CSS with Tailwind -> Goal: Organize. Justification: Allows for detailed side-by-side text comparison without graphics.
+    - Strengths/Weaknesses: Structured HTML/CSS with Tailwind -> Goal: Organize. Justification: Clear, scannable list format.
+    - All diagrams and charts are rendered via Chart.js on Canvas or using structured HTML/CSS. No SVG or Mermaid.js libraries have been used.
+
+    Color Palette: "Brilliant Blues"
+    - Primary Text: #0B2545
+    - Primary Background: #F8F9FA
+    - Accent 1 (Claude): #0077B6
+    - Accent 2 (ChatGPT): #48CAE4
+    - Accent 3 (Neutral/Highlight): #90E0EF
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            max-height: 40vh;
+            width: 100%;
+            max-width: 500px;
+        }
+        .text-primary { color: #0B2545; }
+        .bg-primary { background-color: #0B2545; }
+        .bg-secondary { background-color: #F8F9FA; }
+        .accent1 { color: #0077B6; }
+        .bg-accent1 { background-color: #0077B6; }
+        .accent2 { color: #48CAE4; }
+        .bg-accent2 { background-color: #48CAE4; }
+    </style>
+</head>
+<body class="bg-secondary text-primary">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black mb-2">DESAFÍO DE IAs</h1>
+            <h2 class="text-2xl md:text-4xl font-bold accent1">ChatGPT vs. Claude</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">Un análisis comparativo basado en 10 prompts desafiantes que evalúan lógica matemática, comprensión del lenguaje y resolución de problemas.</p>
+        </header>
+
+        <main>
+            <section id="overall" class="mb-16">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h3 class="text-3xl font-bold text-center mb-6">Puntuación General</h3>
+                    <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Tras evaluar 10 desafíos, los resultados muestran un rendimiento muy competitivo, con una ligera ventaja para Claude. La puntuación máxima posible era de 10.</p>
+                    <div class="chart-container" style="height: 200px; max-height: 25vh;">
+                        <canvas id="overallScoreChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="categories" class="mb-16">
+                <h3 class="text-3xl font-bold text-center mb-10">Rendimiento por Categoría</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <h4 class="text-2xl font-bold mb-4">🧠 Lógica Matemática</h4>
+                        <!-- Removed h-24 from here, adjusted mb -->
+                        <p class="text-gray-600 mb-4">Ambos modelos demostraron una precisión impecable en la resolución de problemas matemáticos y algebraicos.</p>
+                        <!-- New descriptive text for the chart itself -->
+                        <p class="text-sm text-gray-500 mb-2">Puntuación de Claude en esta categoría:</p>
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="mathScoreChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <h4 class="text-2xl font-bold mb-4">🗣️ Comprensión del Lenguaje</h4>
+                        <!-- Removed h-24 from here, adjusted mb -->
+                        <p class="text-gray-600 mb-4">Claude mostró una mayor finura en el análisis de figuras retóricas, lo que marcó la diferencia en esta categoría.</p>
+                        <!-- New descriptive text for the chart itself -->
+                        <p class="text-sm text-gray-500 mb-2">Puntuación de Claude en esta categoría:</p>
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="languageScoreChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <h4 class="text-2xl font-bold mb-4">⚙️ Resolución de Problemas</h4>
+                        <!-- Removed h-24 from here, adjusted mb -->
+                        <p class="text-gray-600 mb-4">Ambos modelos mostraron fortalezas distintas: ChatGPT en soluciones prácticas y económicas, y Claude en optimización y creatividad.</p>
+                        <!-- New descriptive text for the chart itself -->
+                        <p class="text-sm text-gray-500 mb-2">Puntuación de Claude en esta categoría:</p>
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="problemSolvingScoreChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="deep-dive" class="mb-16">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h3 class="text-3xl font-bold text-center mb-10">Análisis Detallado: Los Prompts Decisivos</h3>
+                    <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">La diferencia en la puntuación se originó en tres prompts específicos donde cada IA mostró sus fortalezas y debilidades particulares.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 border rounded-lg">
+                            <div class="md:col-span-1 text-center"><span class="text-4xl font-black accent1">4</span></div>
+                            <div class="md:col-span-11">
+                                <p class="font-semibold text-gray-700">Prompt: Analizar figuras retóricas en un poema.</p>
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <div><span class="font-bold accent2">ChatGPT: 0/1 ❌</span> <p class="text-sm text-gray-600">Confundió símil con metáfora y metáfora con personificación. Su análisis fue superficial.</p></div>
+                                    <div><span class="font-bold accent1">Claude: 1/1 ✔️</span> <p class="text-sm text-gray-600">Identificó correctamente todas las figuras, demostrando mayor precisión en el análisis literario.</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 border rounded-lg">
+                            <div class="md:col-span-1 text-center"><span class="text-4xl font-black accent1">8</span></div>
+                            <div class="md:col-span-11">
+                                <p class="font-semibold text-gray-700">Prompt: Optimizar el uso de un ascensor para 50 personas.</p>
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <div><span class="font-bold accent2">ChatGPT: 0/1 ❌</span> <p class="text-sm text-gray-600">Propuso un plan de 8 viajes, sin alcanzar el mínimo teórico de 7 viajes posibles.</p></div>
+                                    <div><span class="font-bold accent1">Claude: 1/1 ✔️</span> <p class="text-sm text-gray-600">Identificó correctamente el mínimo de 7 viajes y diseñó una estrategia de agrupación por zonas para lograrlo.</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 border rounded-lg">
+                            <div class="md:col-span-1 text-center"><span class="text-4xl font-black accent1">9</span></div>
+                            <div class="md:col-span-11">
+                                <p class="font-semibold text-gray-700">Prompt: Diseñar un menú económico para un evento de 100 personas.</p>
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <div><span class="font-bold accent2">ChatGPT: 1/1 ✔️</span> <p class="text-sm text-gray-600">Creó un menú práctico y realista, con una estimación de costo muy baja ($6-$8/persona), alineado con "presupuesto limitado".</p></div>
+                                    <div><span class="font-bold accent1">Claude: 0/1 ❌</span> <p class="text-sm text-gray-600">Propuso un menú innovador, pero su estimación de costo ($13-$20/persona) fue demasiado alta para un presupuesto limitado.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="strengths-weaknesses" class="mb-16">
+                <h3 class="text-3xl font-bold text-center mb-10">Fortalezas y Debilidades</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h4 class="text-2xl font-bold mb-4 accent2">ChatGPT</h4>
+                        <div class="mb-4">
+                            <h5 class="font-semibold text-lg">Fortalezas</h5>
+                            <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                                <li>Explicaciones claras y didácticas.</li>
+                                <li>Soluciones prácticas y orientadas al presupuesto.</li>
+                                <li>Excelente en reescritura y adaptación de estilo.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-lg">Debilidades</h5>
+                            <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                                <li>Menor precisión en tareas con matices (análisis literario).</li>
+                                <li>Puede simplificar en exceso problemas de optimización.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h4 class="text-2xl font-bold mb-4 accent1">Claude</h4>
+                         <div class="mb-4">
+                            <h5 class="font-semibold text-lg">Fortalezas</h5>
+                            <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                                <li>Alta precisión y atención al detalle.</li>
+                                <li>Creatividad e innovación en la resolución de problemas.</li>
+                                <li>Capacidad para ofrecer métodos alternativos.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-lg">Debilidades</h5>
+                            <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                                <li>Sus soluciones pueden ser menos conscientes de las restricciones prácticas (ej. presupuesto).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+                <h3 class="text-2xl font-bold mb-4">Conclusión</h3>
+                <p class="text-gray-700 max-w-3xl mx-auto text-lg">
+                    Claude se impone por un estrecho margen (9 a 8), destacando por su precisión y creatividad. Sin embargo, ChatGPT demuestra ser una herramienta formidable, especialmente para tareas que requieren practicidad y explicaciones claras. La elección del LLM ideal depende, en última instancia, de la naturaleza específica de la tarea a realizar.
+                </p>
+                <p class="text-sm text-gray-500 mt-8">Infografía creada para el Reto Técnico del Programa de IA de Polygonus Academy. Los datos se basan en la evaluación de 10 prompts específicos.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        const chartTooltipPlugin = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const wrapLabels = (label) => {
+            const max = 16;
+            if (label.length <= max) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > max) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        window.onload = function() {
+            const overallScoreCtx = document.getElementById('overallScoreChart').getContext('2d');
+            new Chart(overallScoreCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Claude', 'ChatGPT'],
+                    datasets: [{
+                        label: 'Puntuación Final (de 10)',
+                        data: [9, 8],
+                        backgroundColor: ['#0077B6', '#48CAE4'],
+                        borderColor: ['#0077B6', '#48CAE4'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: chartTooltipPlugin
+                }
+            });
+
+            const createDoughnutChart = (elementId, label, correct, incorrect, color, totalPrompts) => {
+                const ctx = document.getElementById(elementId).getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Correctas', 'Incorrectas'],
+                        datasets: [{
+                            data: [correct, incorrect],
+                            backgroundColor: [color, '#E9ECEF'],
+                            borderColor: ['#FFFFFF'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            ...chartTooltipPlugin,
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: `Claude: ${correct}/${totalPrompts} Correctas`,
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+            
+            // Updated data for Claude's performance in each category, along with total prompts for that category
+            createDoughnutChart('mathScoreChart', 'Lógica Matemática', 3, 0, '#0077B6', 3); // 3 correct out of 3 prompts
+            createDoughnutChart('languageScoreChart', 'Comprensión del Lenguaje', 3, 0, '#0077B6', 3); // 3 correct out of 3 prompts
+            createDoughnutChart('problemSolvingScoreChart', 'Resolución de Problemas', 3, 1, '#0077B6', 4); // 3 correct out of 4 prompts
+        };
+    </script>
+</body>
+</html>
