@@ -80,34 +80,46 @@
                     
                     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                         <h4 class="text-2xl font-bold mb-4">🧠 Lógica Matemática</h4>
-                        <!-- Removed h-24 from here, adjusted mb -->
                         <p class="text-gray-600 mb-4">Ambos modelos demostraron una precisión impecable en la resolución de problemas matemáticos y algebraicos.</p>
-                        <!-- New descriptive text for the chart itself -->
-                        <p class="text-sm text-gray-500 mb-2">Puntuación de Claude en esta categoría:</p>
+                        
+                        <p class="text-sm text-gray-500 mt-4 mb-2">Puntuación de Claude:</p>
+                        <div class="chart-container mb-6" style="height: 200px;">
+                            <canvas id="mathScoreChartClaude"></canvas>
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 mb-2">Puntuación de ChatGPT:</p>
                         <div class="chart-container" style="height: 200px;">
-                            <canvas id="mathScoreChart"></canvas>
+                            <canvas id="mathScoreChartChatGPT"></canvas>
                         </div>
                     </div>
                     
                     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                         <h4 class="text-2xl font-bold mb-4">🗣️ Comprensión del Lenguaje</h4>
-                        <!-- Removed h-24 from here, adjusted mb -->
                         <p class="text-gray-600 mb-4">Claude mostró una mayor finura en el análisis de figuras retóricas, lo que marcó la diferencia en esta categoría.</p>
-                        <!-- New descriptive text for the chart itself -->
-                        <p class="text-sm text-gray-500 mb-2">Puntuación de Claude en esta categoría:</p>
+                        
+                        <p class="text-sm text-gray-500 mt-4 mb-2">Puntuación de Claude:</p>
+                        <div class="chart-container mb-6" style="height: 200px;">
+                            <canvas id="languageScoreChartClaude"></canvas>
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 mb-2">Puntuación de ChatGPT:</p>
                         <div class="chart-container" style="height: 200px;">
-                            <canvas id="languageScoreChart"></canvas>
+                            <canvas id="languageScoreChartChatGPT"></canvas>
                         </div>
                     </div>
 
                     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                         <h4 class="text-2xl font-bold mb-4">⚙️ Resolución de Problemas</h4>
-                        <!-- Removed h-24 from here, adjusted mb -->
                         <p class="text-gray-600 mb-4">Ambos modelos mostraron fortalezas distintas: ChatGPT en soluciones prácticas y económicas, y Claude en optimización y creatividad.</p>
-                        <!-- New descriptive text for the chart itself -->
-                        <p class="text-sm text-gray-500 mb-2">Puntuación de Claude en esta categoría:</p>
+                        
+                        <p class="text-sm text-gray-500 mt-4 mb-2">Puntuación de Claude:</p>
+                        <div class="chart-container mb-6" style="height: 200px;">
+                            <canvas id="problemSolvingScoreChartClaude"></canvas>
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 mb-2">Puntuación de ChatGPT:</p>
                         <div class="chart-container" style="height: 200px;">
-                            <canvas id="problemSolvingScoreChart"></canvas>
+                            <canvas id="problemSolvingScoreChartChatGPT"></canvas>
                         </div>
                     </div>
                 </div>
@@ -273,7 +285,7 @@
                 }
             });
 
-            const createDoughnutChart = (elementId, label, correct, incorrect, color, totalPrompts) => {
+            const createDoughnutChart = (elementId, aiName, correct, incorrect, color, totalPrompts) => {
                 const ctx = document.getElementById(elementId).getContext('2d');
                 new Chart(ctx, {
                     type: 'doughnut',
@@ -296,7 +308,7 @@
                             },
                             title: {
                                 display: true,
-                                text: `Claude: ${correct}/${totalPrompts} Correctas`,
+                                text: `${aiName}: ${correct}/${totalPrompts} Correctas`,
                                 font: {
                                     size: 16,
                                     weight: 'bold'
@@ -307,10 +319,15 @@
                 });
             };
             
-            // Updated data for Claude's performance in each category, along with total prompts for that category
-            createDoughnutChart('mathScoreChart', 'Lógica Matemática', 3, 0, '#0077B6', 3); // 3 correct out of 3 prompts
-            createDoughnutChart('languageScoreChart', 'Comprensión del Lenguaje', 3, 0, '#0077B6', 3); // 3 correct out of 3 prompts
-            createDoughnutChart('problemSolvingScoreChart', 'Resolución de Problemas', 3, 1, '#0077B6', 4); // 3 correct out of 4 prompts
+            // Data for Claude's performance in each category
+            createDoughnutChart('mathScoreChartClaude', 'Claude', 3, 0, '#0077B6', 3); // 3 correct out of 3 prompts
+            createDoughnutChart('languageScoreChartClaude', 'Claude', 3, 0, '#0077B6', 3); // 3 correct out of 3 prompts (corrected based on previous output, Claude scored 3/3 on language)
+            createDoughnutChart('problemSolvingScoreChartClaude', 'Claude', 3, 1, '#0077B6', 4); // 3 correct out of 4 prompts
+
+            // Data for ChatGPT's performance in each category
+            createDoughnutChart('mathScoreChartChatGPT', 'ChatGPT', 3, 0, '#48CAE4', 3); // 3 correct out of 3 prompts
+            createDoughnutChart('languageScoreChartChatGPT', 'ChatGPT', 2, 1, '#48CAE4', 3); // 2 correct out of 3 prompts (0/1 on poem, 1/1 on sarcasm, 1/1 on formal rewrite = 2/3)
+            createDoughnutChart('problemSolvingScoreChartChatGPT', 'ChatGPT', 3, 1, '#48CAE4', 4); // 3 correct out of 4 prompts (0/1 on elevator, 1/1 on marketing, 1/1 on menu, 1/1 on methodology = 3/4)
         };
     </script>
 </body>
